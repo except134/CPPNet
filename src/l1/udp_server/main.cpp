@@ -7,6 +7,7 @@
 #include <socket_wrapper/socket_headers.h>
 #include <socket_wrapper/socket_wrapper.h>
 #include <socket_wrapper/socket_class.h>
+#include <cstring>
 
 
 // Trim from end (in place).
@@ -99,8 +100,7 @@ int main(int argc, char const *argv[])
                 << "\n'''"
                 << std::endl;
 
-            std::string cmd(buffer);
-            if(rtrim(cmd) == "exit")
+            if( !strncmp(buffer, "exit", recv_len))
                 break;
 
             //if ("exit" == command_string) run = false;

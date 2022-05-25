@@ -6,4 +6,6 @@ add_executable(test_byte_order test_byte_order.cpp)
 
 add_subdirectory(resolve)
 add_subdirectory(udp_server)
+add_subdirectory(udp_client)
+add_subdirectory(pingl)
 
