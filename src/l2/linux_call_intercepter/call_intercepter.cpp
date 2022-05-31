@@ -29,7 +29,6 @@ static write_t old_write;
 
 static int socket_fd = -1;
 
-
 void init(void)
 {
     srand(time(nullptr));
@@ -63,6 +62,11 @@ ssize_t write(int fd, const void *buf, size_t count)
     if (char_buf && (count > 1) && (fd == socket_fd))
     {
         printf("> write() on the socket was called with a string!\n");
+
+        FILE* fout = fopen("intercepted.txt", "at");
+        fprintf(fout, char_buf);
+        fclose(fout);
+        /*
         printf("New buffer = [");
 
         for (size_t i = 0; i < count - 1; ++i)
@@ -76,6 +80,7 @@ ssize_t write(int fd, const void *buf, size_t count)
             putchar(*c);
         }
         printf("]\n");
+         */
     }
 
     return old_write(fd, buf, count);

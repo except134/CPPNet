@@ -5,6 +5,11 @@
 
 #include <pcap.h>
 
+#include <IPv4Layer.h>
+#include <Packet.h>
+#include <PcapFileDevice.h>
+#include <PcapLiveDeviceList.h>
+
 #include "packet_printer.h"
 
 // Default snap length (maximum bytes per packet to capture).
@@ -53,6 +58,14 @@ int main(int argc, const char * const argv[])
     }
     else
     {
+        auto devs = pcpp::PcapLiveDeviceList::getInstance().getPcapLiveDevicesList();
+
+        if(devs.empty())
+        {
+            std::cerr << "Couldn't find default device." << std::endl;
+            return EXIT_FAILURE;
+        }
+
         // Find a capture device if not specified on command-line.
         pcap_if_t *all_devs_sp;
 

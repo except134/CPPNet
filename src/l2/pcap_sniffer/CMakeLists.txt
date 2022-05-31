@@ -16,16 +16,21 @@ else()
     endif()
 endif()
 
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+
+set(PCAPPP_INCLUDE_DIRS "./pcappp")
+link_directories(${PCAPPP_INCLUDE_DIRS})
+
 set(${PROJECT_NAME}_SRC main.cpp packet_printer.cpp)
 
 source_group(source FILES ${${PROJECT_NAME}_SRC}})
 
 add_executable("${PROJECT_NAME}" "${${PROJECT_NAME}_SRC}")
 
-target_include_directories("${PROJECT_NAME}" SYSTEM PRIVATE ${PCAP_INCLUDE_DIRS})
+target_include_directories("${PROJECT_NAME}" SYSTEM PRIVATE ${PCAP_INCLUDE_DIRS} ${PCAPPP_INCLUDE_DIRS})
 
 if (NOT WIN32)
-    target_link_libraries("${PROJECT_NAME}" socket-wrapper pcap::pcap)
+    target_link_libraries("${PROJECT_NAME}" socket-wrapper Pcap++ Packet++ Common++ pcap::pcap)
 else()
     target_link_libraries("${PROJECT_NAME}" socket-wrapper wpcap)
     target_link_libraries("${PROJECT_NAME}" wsock32 ws2_32)
